@@ -10,6 +10,10 @@ bitbake linux-imx
 or
 bitbake linux-intel
 `
+To compile specific bb file:
+`
+bitbake -b <bb file full path>
+`
 To clean local state but keep downloaded image
 `
 bitbake -c cleansstate linux-yocto
