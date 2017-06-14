@@ -42,5 +42,12 @@ https://www.openembedded.org/wiki/Devshell
 
 There had been issues where compilation doesn't work for 32 bit, x86, system. With the error,
 
+* wic
+We have created images for the target, bootloader, kernel, initramfs, rootfs, etc, not necessarily all but depends on target. Now we need to flash all these into a bootable medium, mmc, usb, etc. Ether we can flash or copy all seperately into the bootable medium or we can use `wic` tool provided by openembedded. Wic takes the target imaged built and create ready to `dd` image. wic has several options as well to customize file system, such as where to place bootloader into file system, where to place kernel, etc. Below is the simple command to create `dd`able image. For any customization, check wic help.
+
+`
+wic <taget image name> -e <bitbaked target name>
+`
+
 ## References
 https://community.nxp.com/docs/DOC-100847
