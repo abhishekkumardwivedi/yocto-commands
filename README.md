@@ -31,18 +31,42 @@ To run kernel menuconfig.
 `
 bitbake -c menuconfig linux-yocto
 `
-If OE environment is messed up with host environment during compilation (for me, 32 bit target device kernel image was reluctant to compile in 64 bit build system), add devshell as bitbake command argument. Better use it in error scenario, as this does open new shell and hides all generic logs of execution with do_devshell.
+## Devshell
 
+To run specific commands such as do_compile, for a target in openembedded environment, devshell could be used.
 `
 bitbake -c devshell <target>
 `
+This opens up devshell terminal in new window by going into target location. And on that we we can execute commands for development/debugging.
 
-This resolved this error for me while compiling for Galilieo Gen2.
 `
-error: code model 'kernel' not supported in the 32 bit mode
+bitbake -c devshell linux-yocto
 `
-
+In new devshell we can give commands as working on it locally, e.g.:
+`
+make menuconfig
+make
+`
 https://www.openembedded.org/wiki/Devshell
+
+## To create customized config for kernel
+`
+bitbake linux-yocto -c menuconfig
+`
+Do the needed changes and save. And create diffconfig, which will be a .cfg file. Let's say, gpio.cfg
+`
+bitbake linux-yocto -c diffconfig
+`
+
+Create customized layer
+`
+mkdir -p custom-layer/recipes-kernel/linux/linux-yocto/files
+cp <>/gpio.cfg custom-layer/recipes-kernel/linux/linux-yocto/files/
+touch custom-layer/recipes-kernel/linux/linux-yocto/linux-yocto_%.bbappend
+echo >> FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+echo >> SRC_URI += "file://gpio.cfg"
+`
+Now, bitbaking linux-yocto will include these changes, once custom-layer is added in local/bblayer.conf file.
 
 There had been issues where compilation doesn't work for 32 bit, x86, system. With the error,
 
