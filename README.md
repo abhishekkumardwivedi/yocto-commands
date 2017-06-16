@@ -22,6 +22,19 @@ To clean everything, next compilation will again download the source code
 `
 bitbake -c cleanall linux-yocto
 `
+To clean temp
+`
+bitbake -c clean <pkg>
+`
+To clean temp and sstate-cache
+`
+bitbake -c cleansstate <pkg>
+`
+To remote temp, sstate-cache and fetch/downloads
+`
+bitbake -c cleanall <pkg>
+`
+
 Selectavely compiled modules doesn't get into rootfs. To add it in rootfs, 1st clean state and then rebuild the target. It will re-generate the rootfs and so image.
 `
 bitbake -c cleansstate <target name>
